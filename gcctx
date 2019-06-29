@@ -24,12 +24,14 @@ fi
 ###
 ### global variables
 ###
+
 ACTIVE_CONFIG="$HOME/.config/gcloud/active_config"
 GCLOUD_COMMAND="$(which gcloud)"
 
 ###
 ### internal functions for base file manipuration
 ###
+
 function file_error_quit {
     if [ ! -f "$1" ] ; then
         echo "FILE ERROR: $1: not found. abort."
@@ -58,6 +60,7 @@ ACTIVATE_COMMAND="$BASE_COMMAND activate"
 ###
 ### GET section
 ###
+
 function get {
     LIST_COMMAND="$BASE_COMMAND list"
     $LIST_COMMAND
@@ -91,19 +94,24 @@ function internal_set {
 ###
 ### menu definitions
 ###
+
 ###### sub-command selection in $1
 case $1 in
     g|l)
         get
+        ### // TODO: `dir/` expression
     ;;
     c)
+        ### // TODO
     ;;
     s)
+        ### // TODO
     ;;
     is)
         internal_set "$2"
     ;;
     m)
+        ### // TODO
     ;;
     *)
         usage_and_quit
