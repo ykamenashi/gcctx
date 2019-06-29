@@ -11,9 +11,10 @@
   * It means `~/.gcctx`
 
 ## To Do
-* [ ] Get selectable profiles
+* [x] Get selectable profiles
+  * [ ] Get selectable profiles (but category filtered)
 * [ ] Duplicate existing profile settings into new profile
-* [ ] Switch between existing profiles
+* [x] Switch between existing profiles
 * [ ] Sub-directory style category splitting
 * [ ] Category editing
 
