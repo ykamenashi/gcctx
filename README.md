@@ -35,6 +35,9 @@
 ### Switch to another profile (action: SELECT)
 > gcctx s [profile-name]
 
+> gcctx is [profile-name]
+* `is` : internal set
+
 #### Switching supports sub-directory
 > gcctx s [dir-name/profile-name]
 
