@@ -1,5 +1,5 @@
 # gcctx
-`gcloud config configurations activate` alternative: Wanna be an equivalent of `kubectx`
+[`gcloud config configurations activate`](https://cloud.google.com/sdk/gcloud/reference/config/configurations/activate) alternative: Wanna be an equivalent of `kubectx`
 
 ## Words dict
 * `profile`
