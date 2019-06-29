@@ -11,12 +11,15 @@
   * It means `~/.gcctx`
 
 ## To Do
+* [ ] Get selectable profiles
 * [ ] Duplicate existing profile settings into new profile
 * [ ] Switch between existing profiles
 * [ ] Sub-directory style category splitting
 * [ ] Category editing
 
 ## Command line syntax sample
+### Get all selectable profiles (action: GET)
+> gcctx g
 
 ### Duplicate existing profile to another new (action: COPY)
 > gcctx c [profile-origin] [profile-new]
