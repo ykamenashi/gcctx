@@ -22,7 +22,12 @@
 > gcctx g
 
 #### Get category-oliented profiles
-> gcctx g dir
+> gcctx g all
+* => show all categories, and selectable profiles
+> gcctx g dirs
+* => show all dir names
+> gcctz g [dir-name]
+* => show profiles in dir
 
 ### Duplicate existing profile to another new (action: COPY)
 > gcctx c [profile-origin] [profile-new]
