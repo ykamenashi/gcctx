@@ -91,9 +91,9 @@ function internal_set {
 ###
 ### menu definitions
 ###
-
+###### sub-command selection in $1
 case $1 in
-    g)
+    g|l)
         get
     ;;
     c)
@@ -109,3 +109,5 @@ case $1 in
         usage_and_quit
     ;;
 esac
+
+###### END OF FILE ######
