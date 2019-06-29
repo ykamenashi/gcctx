@@ -21,6 +21,9 @@
 ### Get all selectable profiles (action: GET)
 > gcctx g
 
+#### Get category-oliented profiles
+> gcctx g dir
+
 ### Duplicate existing profile to another new (action: COPY)
 > gcctx c [profile-origin] [profile-new]
 
