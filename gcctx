@@ -4,48 +4,108 @@
 #### USAGE section
 ####
 
-function usage {
+function usage_and_quit {
 cat << EOF
 ###### ###### ###### ###### ###### ###### ###### ###### ##### ##### #####
 
 gcctx: \`gcloud config configurations\` manipurator.
 
-syntax: see https://github.com/ykamenashi/gcctx/blob/master/README.md 
+syntax: see https://github.com/ykamenashi/gcctx/blob/master/README.md
 
 ###### ###### ###### ###### ###### ###### ###### ###### ##### ##### #####
 EOF
-  exit 0
+    exit 0
 }
 
 if [ $# -lt 1 ]; then
-  usage
-fi 
+    usage_and_quit
+fi
+
+###
+### global variables
+###
+ACTIVE_CONFIG="$HOME/.config/gcloud/active_config"
+GCLOUD_COMMAND="$(which gcloud)"
+
+###
+### internal functions for base file manipuration
+###
+function file_error_quit {
+    if [ ! -f "$1" ] ; then
+        echo "FILE ERROR: $1: not found. abort."
+        exit 1
+    fi
+}
+
+###### interface: $0 "$TARGET_VAR" "ANY_LABEL_STRING_TO_VAR"
+function zero_length_strings_quit {
+    if [ -z "$1" ] ; then
+        echo "VARIABLE BLANK ERROR: $2: variable not set. abort."
+        exit 1
+    fi
+}
+
+function internal_sanity_check {
+    file_error_quit $ACTIVE_CONFIG
+    zero_length_strings_quit "$GCLOUD_COMMAND" GCLOUD_COMMAND
+    #zero_length_strings_quit "$HOGEFUGA" HOGEFUGA
+}
+internal_sanity_check
+
+BASE_COMMAND="gcloud config configurations"
+ACTIVATE_COMMAND="$BASE_COMMAND activate"
 
 ###
 ### GET section
 ###
 function get {
-  LIST_COMMAND="$BASE_COMMAND list"
-  $LIST_COMMAND
+    LIST_COMMAND="$BASE_COMMAND list"
+    $LIST_COMMAND
+}
+
+###
+### SET section
+###
+
+function internal_set {
+    REQUESTED_PROFILE_NAME="$1"
+    zero_length_strings_quit $REQUESTED_PROFILE_NAME REQUESTED_PROFILE_NAME
+    
+    CURRENT_GCLOUD_PROFILES="$(gcloud config configurations list --format='value(name)')"
+    zero_length_strings_quit $CURRENT_GCLOUD_PROFILES CURRENT_GCLOUD_PROFILES
+    
+    FLAG_PROFILE_DOES_NOT_EXIST=1
+    for P in $CURRENT_GCLOUD_PROFILES
+    do
+        if [ "$P" == "$REQUESTED_PROFILE_NAME" ] ; then
+            FLAG_PROFILE_DOES_NOT_EXIST=0
+        fi
+    done
+    if [ $FLAG_PROFILE_DOES_NOT_EXIST -eq 1 ] ; then
+      echo "PROFILE NON-EXISTENT ERROR: $REQUESTED_PROFILE_NAME abort."
+      exit 2
+    fi
+    $ACTIVATE_COMMAND $REQUESTED_PROFILE_NAME
 }
 
 ###
 ### menu definitions
 ###
-SUPPORTED_ACTIONS="GET COPY SELECT MOVE"
-BASE_COMMAND="gcloud config configurations"
 
 case $1 in
-g)
-  get
-  ;;
-c)
-  ;;
-s)
-  ;;
-m)
-  ;;
-*)
-  usage
-  ;;
+    g)
+        get
+    ;;
+    c)
+    ;;
+    s)
+    ;;
+    is)
+        internal_set "$2"
+    ;;
+    m)
+    ;;
+    *)
+        usage_and_quit
+    ;;
 esac
