@@ -1,0 +1,18 @@
+#!/bin/bash
+
+### CUSTOMIZE SECTION ###
+#####
+##### put your default cloud-shell configuration name here.
+#####
+MY_PRIVATE_CONFIG_NAME=tokyo
+
+### static code ###
+##### 1. save current config-name to VAR
+##### 2. execute cloud-shell ssh by default config-name
+##### 3. restore config-name from VAR
+ACTIVE_CONFIG=$(cat ~/.config/gcloud/active_config)
+gcctx is $MY_PRIVATE_CONFIG_NAME && \
+  gcloud alpha cloud-shell ssh ; \
+  gcctx is $ACTIVE_CONFIG
+
+### EOF ###
