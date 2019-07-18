@@ -19,6 +19,9 @@
 * [ ] Category editing
 
 ## Command line syntax sample
+### Get active config (action: NOW)
+> gcctx n
+
 ### Get all selectable profiles (action: GET)
 > gcctx g
 

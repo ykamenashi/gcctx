@@ -66,6 +66,11 @@ function get {
     $LIST_COMMAND
 }
 
+function active {
+    gcloud config configurations list --filter 'is_active:true' \
+        --format='table[box](properties.core.project,properties.core.account)'
+}
+
 ###
 ### SET section
 ###
@@ -97,6 +102,9 @@ function internal_set {
 
 ###### sub-command selection in $1
 case $1 in
+    n)
+        active ### now-Active
+    ;;
     g|l)
         get
         ### // TODO: `dir/` expression
