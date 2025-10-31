@@ -17,10 +17,6 @@ EOF
     exit 0
 }
 
-if [ $# -lt 1 ]; then
-    usage_and_quit
-fi
-
 ###
 ### global variables
 ###
@@ -31,6 +27,11 @@ GCLOUD_COMMAND="$(which gcloud)"
 ###
 ### internal functions for base file manipuration
 ###
+
+FZF_ENABLED=false
+if [[ -n "$(which fzf 2>/dev/null)" ]] ; then
+    FZF_ENABLED=true
+fi
 
 function file_error_quit {
     if [ ! -f "$1" ] ; then
@@ -94,6 +95,7 @@ function internal_set {
       exit 2
     fi
     $ACTIVATE_COMMAND $REQUESTED_PROFILE_NAME
+    gcloud config list
 }
 
 ###
@@ -122,7 +124,12 @@ case $1 in
         ### // TODO
     ;;
     *)
-        usage_and_quit
+        if [ "$FZF_ENABLED" = true ] ; then
+            gcloud config configurations list --format='table(NAME)[no-heading]' | fzf --height 40% --layout=reverse --border --prompt="Select gcloud config: " | xargs -r "$0" is
+            :
+        else
+            usage_and_quit
+        fi
     ;;
 esac
 
