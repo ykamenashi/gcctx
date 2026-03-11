@@ -52,12 +52,17 @@ def cp(old_name, new_name):
         
         for section, values in props.items():
             for key, value in values.items():
-                subprocess.run(
-                    ["gcloud", "config", "set", f"{section}/{key}", str(value), "--configuration", new_name],
-                    check=True, capture_output=True
-                )
+                try:
+                    subprocess.run(
+                        ["gcloud", "config", "set", f"{section}/{key}", str(value), "--configuration", new_name],
+                        check=True, capture_output=True, text=True
+                    )
+                except subprocess.CalledProcessError as e:
+                    # 認証情報の不足などで set が失敗しても警告を出して続行する
+                    click.echo(f"Warning: Could not set {section}/{key} for {new_name}. "
+                               f"Error: {e.stderr.strip()}", err=True)
         
-        click.echo(f"Successfully copied configuration to {new_name}.")
+        click.echo(f"Successfully created and configured {new_name}.")
     except Exception as e:
         click.echo(f"Error copying configuration: {e}", err=True)
         sys.exit(1)
